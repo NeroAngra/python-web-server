@@ -1,0 +1,13 @@
+[Unit]
+Description=Python Web Server
+After=network.target
+
+[Service]
+User=tim
+Group=tim
+WorkingDirectory=/home/tim/python-web-server
+ExecStart=/usr/bin/python3 /home/tim/python-web-server/web_server.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

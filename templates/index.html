@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plex Media</title>
+</head>
+<body>
+    <h1>Plex Media</h1>
+    <form method="POST" action="/">
+        <input type="text" name="inputString" placeholder="Enter a string" required>
+        <button type="submit">Submit</button>
+    </form>
+    <ul>
+        {% for subdirectory in subdirectories %}
+            <li><a href="{{ subdirectory }}">{{ subdirectory }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

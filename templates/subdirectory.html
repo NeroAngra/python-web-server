@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ subdirectory }}</title>
+</head>
+<body>
+    <h1>{{ subdirectory }}</h1>
+    <ul>
+        {% for item in contents %}
+            {% if item|regex_match('.*\/.*') %}
+                <li><a href="/{{ subdirectory }}/{{ item|remove_duplicate_root(subdirectory) }}">{{ item }}</a></li>
+            {% else %}
+                <li><a href="/{{ subdirectory }}/{{ item }}" download>{{ item }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
