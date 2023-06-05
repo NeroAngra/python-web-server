@@ -5,7 +5,7 @@ import re
 import subprocess
 
 app = Flask(__name__)
-media_directory = "/home/tim/plex_media"
+media_directory = "/plex_media"
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, filename="/var/log/python-web-server/server.log", format="%(asctime)s - %(levelname)s - %(message)s")
@@ -24,8 +24,9 @@ def get_directory_contents(directory_path):
 def index():
     logging.info("Connection to index route")
     if request.method == "POST":
-        form_data = request.form.get("inputString")
-        process_form(form_data)  # Call your custom function with the form data
+        label_data = request.form.get("labelString")
+        magnet_data = request.form.get("magnetString")
+        process_form(label_data, magnet_data)  # Call your custom function with the form data
     subdirectories = [name for name in os.listdir(media_directory) if os.path.isdir(os.path.join(media_directory, name))]
     return render_template("index.html", subdirectories=subdirectories)
 
@@ -56,12 +57,12 @@ def remove_duplicate_root(value, root):
 app.jinja_env.filters['regex_match'] = regex_match
 app.jinja_env.filters['remove_duplicate_root'] = remove_duplicate_root
 
-def process_form(form_data):
+def process_form(label_data, magnet_data):
     logging.info("Starting Torrent Download")
-    subprocess.run(["/usr/bin/python3", "/home/tim/python-web-server/download_torrent.py", form_data])
+    subprocess.run(["/usr/bin/python3", "/etc/python-web-server/download_torrent.py", label_data, magnet_data])
     # Custom function to process the form data
     # Implement your desired functionality here
-    logging.info(f"Form data: {form_data}")
+    logging.info(f"Form data: {label_data} {magnet_data}")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
